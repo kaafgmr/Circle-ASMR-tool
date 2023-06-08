@@ -1,0 +1,6 @@
+[submodule "target/debug/build/raylib-sys-360ec88f2d54187b/out/raylib"]
+	path = target/debug/build/raylib-sys-360ec88f2d54187b/out/raylib
+	url = https://github.com/deltaphc/raylib-rs.git
+[submodule "target/debug/build/raylib-sys-49e51c1e76fb24f2/out/raylib"]
+	path = target/debug/build/raylib-sys-49e51c1e76fb24f2/out/raylib
+	url = https://github.com/deltaphc/raylib-rs.git

@@ -1,0 +1,148 @@
+CMAKE_TOOLCHAIN_FILE_x86_64-pc-windows-msvc = None
+CMAKE_TOOLCHAIN_FILE_x86_64_pc_windows_msvc = None
+HOST_CMAKE_TOOLCHAIN_FILE = None
+CMAKE_TOOLCHAIN_FILE = None
+CMAKE_PREFIX_PATH_x86_64-pc-windows-msvc = None
+CMAKE_PREFIX_PATH_x86_64_pc_windows_msvc = None
+HOST_CMAKE_PREFIX_PATH = None
+CMAKE_PREFIX_PATH = None
+CMAKE_x86_64-pc-windows-msvc = None
+CMAKE_x86_64_pc_windows_msvc = None
+HOST_CMAKE = None
+CMAKE = None
+running: "cmake" "C:\\Users\\Kelson\\Desktop\\RustLearing\\circle_asmr_thing\\target\\debug\\build\\raylib-sys-360ec88f2d54187b\\out\\raylib" "-G" "Ninja" "-DCMAKE_BUILD_TYPE=Debug" "-DBUILD_EXAMPLES=OFF" "-DCMAKE_BUILD_TYPE=Release" "-DSUPPORT_BUSY_WAIT_LOOP=OFF" "-DUSE_WAYLAND=OFF" "-DOPENGL_VERSION=OFF" "-DPLATFORM=Desktop" "-DCMAKE_INSTALL_PREFIX=C:\\Users\\Kelson\\Desktop\\RustLearing\\circle_asmr_thing\\target\\debug\\build\\raylib-sys-360ec88f2d54187b\\out" "-DCMAKE_C_FLAGS= -nologo -MD -Brepro" "-DCMAKE_C_COMPILER=C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.35.32215/bin/HostX64/x64/cl.exe" "-DCMAKE_CXX_FLAGS= -nologo -MD -Brepro" "-DCMAKE_CXX_COMPILER=C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.35.32215/bin/HostX64/x64/cl.exe" "-DCMAKE_ASM_FLAGS= -nologo -MD -Brepro" "-DCMAKE_ASM_COMPILER=C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.35.32215/bin/HostX64/x64/cl.exe"
+-- The C compiler identification is MSVC 19.35.32217.1
+-- The CXX compiler identification is MSVC 19.35.32217.1
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.35.32215/bin/HostX64/x64/cl.exe - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.35.32215/bin/HostX64/x64/cl.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Performing Test COMPILER_HAS_THOSE_TOGGLES
+-- Performing Test COMPILER_HAS_THOSE_TOGGLES - Failed
+-- Testing if -Werror=pointer-arith can be used -- Failed
+-- Testing if -Werror=implicit-function-declaration can be used -- Failed
+-- Testing if -fno-strict-aliasing can be used -- Failed
+-- Using raylib's GLFW
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - not found
+-- Found Threads: TRUE  
+-- Including Win32 support
+-- Audio Backend: miniaudio
+-- Building raylib static library
+-- Generated build type: Release
+-- Compiling with the flags:
+--   PLATFORM=PLATFORM_DESKTOP
+--   GRAPHICS=GRAPHICS_API_OPENGL_33
+-- Configuring done (2.1s)
+-- Generating done (0.0s)
+-- Build files have been written to: C:/Users/Kelson/Desktop/RustLearing/circle_asmr_thing/target/debug/build/raylib-sys-360ec88f2d54187b/out/build
+running: "cmake" "--build" "." "--target" "install" "--config" "Debug" "--parallel" "16"
+[1/31] Building C object raylib\CMakeFiles\raylib.dir\utils.c.obj
+[2/31] Building C object raylib\CMakeFiles\raylib.dir\rshapes.c.obj
+[3/31] Building C object raylib\CMakeFiles\raylib.dir\rtext.c.obj
+[4/31] Building C object raylib\external\glfw\src\CMakeFiles\glfw.dir\window.c.obj
+[5/31] Building C object raylib\external\glfw\src\CMakeFiles\glfw.dir\monitor.c.obj
+[6/31] Building C object raylib\external\glfw\src\CMakeFiles\glfw.dir\osmesa_context.c.obj
+[7/31] Building C object raylib\external\glfw\src\CMakeFiles\glfw.dir\null_init.c.obj
+[8/31] Building C object raylib\external\glfw\src\CMakeFiles\glfw.dir\init.c.obj
+[9/31] Building C object raylib\external\glfw\src\CMakeFiles\glfw.dir\platform.c.obj
+[10/31] Building C object raylib\external\glfw\src\CMakeFiles\glfw.dir\vulkan.c.obj
+[11/31] Building C object raylib\external\glfw\src\CMakeFiles\glfw.dir\egl_context.c.obj
+[12/31] Building C object raylib\external\glfw\src\CMakeFiles\glfw.dir\context.c.obj
+[13/31] Building C object raylib\external\glfw\src\CMakeFiles\glfw.dir\null_monitor.c.obj
+[14/31] Building C object raylib\external\glfw\src\CMakeFiles\glfw.dir\input.c.obj
+[15/31] Building C object raylib\CMakeFiles\raylib.dir\rtextures.c.obj
+[16/31] Building C object raylib\external\glfw\src\CMakeFiles\glfw.dir\null_window.c.obj
+[17/31] Building C object raylib\external\glfw\src\CMakeFiles\glfw.dir\null_joystick.c.obj
+[18/31] Building C object raylib\external\glfw\src\CMakeFiles\glfw.dir\win32_time.c.obj
+[19/31] Building C object raylib\external\glfw\src\CMakeFiles\glfw.dir\win32_thread.c.obj
+[20/31] Building C object raylib\external\glfw\src\CMakeFiles\glfw.dir\win32_module.c.obj
+[21/31] Building C object raylib\external\glfw\src\CMakeFiles\glfw.dir\win32_monitor.c.obj
+[22/31] Building C object raylib\external\glfw\src\CMakeFiles\glfw.dir\win32_joystick.c.obj
+[23/31] Building C object raylib\external\glfw\src\CMakeFiles\glfw.dir\win32_init.c.obj
+[24/31] Building C object raylib\external\glfw\src\CMakeFiles\glfw.dir\wgl_context.c.obj
+[25/31] Building C object raylib\external\glfw\src\CMakeFiles\glfw.dir\win32_window.c.obj
+[26/31] Linking C static library raylib\external\glfw\src\glfw3.lib
+[27/31] Building C object raylib\CMakeFiles\raylib.dir\rmodels.c.obj
+[28/31] Building C object raylib\CMakeFiles\raylib.dir\raudio.c.obj
+C:\Users\Kelson\Desktop\RustLearing\circle_asmr_thing\target\debug\build\raylib-sys-360ec88f2d54187b\out\raylib\src\raudio.c(1290): warning C4090: 'fun‡Æo': qualificadores 'const' diferentes
+[29/31] Building C object raylib\CMakeFiles\raylib.dir-- Install configuration: "Release"
+-- Installing: C:/Users/Kelson/Desktop/RustLearing/circle_asmr_thing/target/debug/build/raylib-sys-360ec88f2d54187b/out/lib/raylib.lib
+-- Installing: C:/Users/Kelson/Desktop/RustLearing/circle_asmr_thing/target/debug/build/raylib-sys-360ec88f2d54187b/out/include/raylib.h
+-- Installing: C:/Users/Kelson/Desktop/RustLearing/circle_asmr_thing/target/debug/build/raylib-sys-360ec88f2d54187b/out/include/rlgl.h
+-- Installing: C:/Users/Kelson/Desktop/RustLearing/circle_asmr_thing/target/debug/build/raylib-sys-360ec88f2d54187b/out/include/raymath.h
+-- Installing: C:/Users/Kelson/Desktop/RustLearing/circle_asmr_thing/target/debug/build/raylib-sys-360ec88f2d54187b/out/lib/pkgconfig/raylib.pc
+-- Installing: C:/Users/Kelson/Desktop/RustLearing/circle_asmr_thing/target/debug/build/raylib-sys-360ec88f2d54187b/out/lib/cmake/raylib/raylib-config-version.cmake
+-- Installing: C:/Users/Kelson/Desktop/RustLearing/circle_asmr_thing/target/debug/build/raylib-sys-360ec88f2d54187b/out/lib/cmake/raylib/raylib-config.cmake
+\rcore.c.obj
+[30/31] Linking C static library raylib\raylib.lib
+[30/31] Install the project...
+cargo:root=C:\Users\Kelson\Desktop\RustLearing\circle_asmr_thing\target\debug\build\raylib-sys-360ec88f2d54187b\out
+cargo:rustc-link-search=native=C:\Users\Kelson\Desktop\RustLearing\circle_asmr_thing\target\debug\build\raylib-sys-360ec88f2d54187b\out\lib
+cargo:rerun-if-changed=binding/raygui.h
+cargo:rerun-if-changed=binding/../raylib/src/raylib.h
+cargo:rerun-if-changed=C:\Program Files\LLVM\lib\clang\16\include\stdarg.h
+cargo:rerun-if-changed=C:\Program Files\LLVM\lib\clang\16\include\stdbool.h
+cargo:rerun-if-changed=binding/../raylib/src/rlgl.h
+cargo:rerun-if-changed=C:\Program Files\LLVM\lib\clang\16\include\stdbool.h
+cargo:rustc-link-lib=dylib=winmm
+cargo:rustc-link-lib=dylib=gdi32
+cargo:rustc-link-lib=dylib=user32
+cargo:rustc-link-lib=dylib=shell32
+cargo:rustc-link-lib=static=raylib
+TARGET = Some("x86_64-pc-windows-msvc")
+OPT_LEVEL = Some("0")
+HOST = Some("x86_64-pc-windows-msvc")
+cargo:rerun-if-env-changed=CC_x86_64-pc-windows-msvc
+CC_x86_64-pc-windows-msvc = None
+cargo:rerun-if-env-changed=CC_x86_64_pc_windows_msvc
+CC_x86_64_pc_windows_msvc = None
+cargo:rerun-if-env-changed=HOST_CC
+HOST_CC = None
+cargo:rerun-if-env-changed=CC
+CC = None
+cargo:rerun-if-env-changed=CFLAGS_x86_64-pc-windows-msvc
+CFLAGS_x86_64-pc-windows-msvc = None
+cargo:rerun-if-env-changed=CFLAGS_x86_64_pc_windows_msvc
+CFLAGS_x86_64_pc_windows_msvc = None
+cargo:rerun-if-env-changed=HOST_CFLAGS
+HOST_CFLAGS = None
+cargo:rerun-if-env-changed=CFLAGS
+CFLAGS = None
+cargo:rerun-if-env-changed=CRATE_CC_NO_DEFAULTS
+CRATE_CC_NO_DEFAULTS = None
+CARGO_CFG_TARGET_FEATURE = Some("fxsr,sse,sse2")
+DEBUG = Some("true")
+running: "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\HostX64\\x64\\cl.exe" "-nologo" "-MD" "-Z7" "-Brepro" "-I" "binding" "-FoC:\\Users\\Kelson\\Desktop\\RustLearing\\circle_asmr_thing\\target\\debug\\build\\raylib-sys-360ec88f2d54187b\\out\\binding/rgui_wrapper.o" "-c" "binding/rgui_wrapper.cpp"
+rgui_wrapper.cpp
+exit code: 0
+cargo:rerun-if-env-changed=AR_x86_64-pc-windows-msvc
+AR_x86_64-pc-windows-msvc = None
+cargo:rerun-if-env-changed=AR_x86_64_pc_windows_msvc
+AR_x86_64_pc_windows_msvc = None
+cargo:rerun-if-env-changed=HOST_AR
+HOST_AR = None
+cargo:rerun-if-env-changed=AR
+AR = None
+cargo:rerun-if-env-changed=ARFLAGS_x86_64-pc-windows-msvc
+ARFLAGS_x86_64-pc-windows-msvc = None
+cargo:rerun-if-env-changed=ARFLAGS_x86_64_pc_windows_msvc
+ARFLAGS_x86_64_pc_windows_msvc = None
+cargo:rerun-if-env-changed=HOST_ARFLAGS
+HOST_ARFLAGS = None
+cargo:rerun-if-env-changed=ARFLAGS
+ARFLAGS = None
+running: "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\HostX64\\x64\\lib.exe" "-out:C:\\Users\\Kelson\\Desktop\\RustLearing\\circle_asmr_thing\\target\\debug\\build\\raylib-sys-360ec88f2d54187b\\out\\librgui.a" "-nologo" "C:\\Users\\Kelson\\Desktop\\RustLearing\\circle_asmr_thing\\target\\debug\\build\\raylib-sys-360ec88f2d54187b\\out\\binding/rgui_wrapper.o"
+exit code: 0
+cargo:rustc-link-lib=static=rgui
+cargo:rustc-link-search=native=C:\Users\Kelson\Desktop\RustLearing\circle_asmr_thing\target\debug\build\raylib-sys-360ec88f2d54187b\out
