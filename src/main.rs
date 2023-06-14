@@ -10,39 +10,141 @@ fn main()
 
     let screen_width = rl.get_screen_width();
     let screen_height = rl.get_screen_height();
-    rl.set_target_fps(120);
+    rl.set_target_fps(60);
 
+    let zero_deg_fix = 90.0 * DEG2RAD as f32;
+    let one_cicle_duration_in_secs = 20.0;
+    
     let line_point1 = Vector2{x: screen_width as f32 * 0.1f32, y: screen_height as f32 * 0.9f32};
     let line_point2 = Vector2{x: screen_width as f32 * 0.9f32, y: screen_height as f32 * 0.9f32};
     let line_center = (line_point1.x + line_point2.x) / 2.0;
-    
-    let arc_radius = 90.0;
-    let arc_center = Vector2{x: line_center, y: line_point2.y};
-    let zero_deg_fix = 90.0;
+    let line_length = line_point2.x - line_point1.x;
 
-    let mut test_angle = 45.0 * DEG2RAD as f32;
+    let arc_center = Vector2{x: line_center, y: line_point2.y};
+    let arc_start_angle = PI as f32 - zero_deg_fix;
+    let arc_final_angle = 2.0 * PI as f32 - zero_deg_fix;
+    let arc_start_radius = 90.0;
+    let arc_default_color = Color::WHITE;
+    let arc_amount = 10;
+    
+    let mut arcs:Vec<Arc> = Vec::new();
+
+    let circle_commom_velocity = arc_final_angle / one_cicle_duration_in_secs;
+    let circle_radius = 10.0;
+    let circle_default_color = Color::WHITE;
+    let mut circles:Vec<Circle> = Vec::new();
+
+    for i in 0..arc_amount
+    {
+        let radius_offset = ((line_length * 0.5 - arc_start_radius) / arc_amount as f32) * (i as f32 + 1.0);
+        let new_arc = Arc::new(arc_center, radius_offset, arc_start_angle * RAD2DEG as f32, arc_final_angle * RAD2DEG as f32, arc_default_color);
+        arcs.push(new_arc);
+    }
+
+    for i in 0..arc_amount
+    {
+        let circle_pos = calc_pos_around(arcs[i].position, arcs[i].radius, arcs[i].final_angle * DEG2RAD as f32, circle_commom_velocity, &mut rl);
+        let new_circle = Circle::new(circle_pos, circle_radius, circle_commom_velocity * (i as f32 + 1.0), circle_default_color);
+        circles.push(new_circle);
+    }
+
 
     while !rl.window_should_close()
     {
+        for i in 0..circles.len()
+        {
+            circles[i].update(arcs[i].position, arcs[i].radius, arcs[i].final_angle * DEG2RAD as f32, &mut rl);
+        }
+
         let mut screen = rl.begin_drawing(&thread);
 
         screen.clear_background(Color::BLACK);
 
         screen.draw_line_v(line_point1, line_point2, Color::WHITE);
 
-        screen.draw_ring_lines(arc_center, arc_radius, arc_radius, zero_deg_fix, zero_deg_fix + 180.0, 200, Color::ORANGE);
- 
-        let circle_center = arc_center + Vector2{x: libm::cosf(test_angle) * arc_radius, y: -libm::sinf(test_angle) * arc_radius};
-
-        if  screen.is_key_down(KeyboardKey::KEY_A)
+        for arc in &arcs
         {
-            test_angle += DEG2RAD as f32;
-        }
-        else if screen.is_key_down(KeyboardKey::KEY_D)
-        {
-            test_angle -= DEG2RAD as f32;
+            arc.draw(&mut screen);
         }
 
-        screen.draw_circle_v(circle_center, 10.0, Color::BLUE);
+        for circle in &circles
+        {
+            circle.draw(&mut screen);
+        }
     }
+}
+
+
+struct Arc
+{
+    position:Vector2,
+    radius:f32,
+    start_angle:f32,
+    final_angle:f32,
+    color:Color,
+}
+
+impl Arc
+{
+    pub fn new(position: Vector2, radius: f32, start_angle: f32, final_angle: f32, color: Color) -> Arc
+    {
+        Arc
+        {
+            position,
+            radius,
+            start_angle,
+            final_angle,
+            color, 
+        }
+    }
+
+
+    pub fn draw(&self, screen: &mut RaylibDrawHandle)
+    {
+        screen.draw_ring_lines(self.position, self.radius, self.radius, self.start_angle, self.final_angle, 60, self.color);
+    }
+}
+
+
+struct Circle
+{
+    position:Vector2,
+    radius:f32,
+    velocity:f32,
+    color:Color,
+}
+
+impl Circle
+{
+    pub fn new(position: Vector2, radius: f32, velocity: f32, color: Color) -> Circle
+    {
+        Circle
+        {
+            position,
+            radius,
+            velocity,
+            color,
+        }
+    }
+    
+    pub fn update(&mut self, arc_center: Vector2, arc_radius:f32, arc_final_angle: f32, screen: &mut RaylibHandle)
+    {
+        self.position = calc_pos_around(arc_center, arc_radius, arc_final_angle, self.velocity, screen);
+    }
+
+
+    pub fn draw(&self, screen: &mut RaylibDrawHandle)
+    {
+        screen.draw_circle_v(self.position, self.radius, self.color);
+    }
+}
+
+
+fn calc_pos_around(arc_center: Vector2, arc_radius:f32, arc_final_angle: f32, circle_velocity: f32, screen: &mut RaylibHandle) -> Vector2
+{
+    let current_distance = PI as f32 + screen.get_time() as f32 * circle_velocity;
+    let mod_distance = current_distance % arc_final_angle;
+    let final_distance = if mod_distance >= PI as f32 { mod_distance } else { arc_final_angle - mod_distance };
+
+    arc_center + Vector2{x: libm::cosf(final_distance) * arc_radius, y: libm::sinf(final_distance) * arc_radius}
 }
