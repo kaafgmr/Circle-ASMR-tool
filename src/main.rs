@@ -1,6 +1,22 @@
 use raylib::prelude::*;
 use libm;
 
+// variables ////////////////////////////////////////////
+const ONE_CICLE_DURATION_IN_SECS:f32 = 10.0;
+
+const ARC_START_ANGLE:f32 = PI as f32 ;
+const ARC_FINAL_ANGLE:f32 = 2.0 * PI as f32;
+const ARC_START_RADIUS:f32 = 90.0;
+const ARC_DEFAULT_COLOR:Color = Color::WHITE;
+const ARC_AMOUNT:usize = 3;
+
+const CIRCLE_RADIUS:f32 = 10.0;
+const CIRCLE_START_DISTANCE:f32 = ARC_START_ANGLE;
+const CIRCLE_MAX_DISTANCE:f32 = ARC_FINAL_ANGLE;
+const CIRCLE_DEFAULT_COLOR:Color = Color::WHITE;
+/////////////////////////////////////////////////////////
+
+
 fn main()
 {
     let (mut rl, thread) = raylib::init()
@@ -10,50 +26,46 @@ fn main()
 
     let screen_width = rl.get_screen_width();
     let screen_height = rl.get_screen_height();
-    rl.set_target_fps(60);
+    rl.set_target_fps(120);
 
-    let one_cicle_duration_in_secs = 20.0;
-    
+        
+    let mut audio_device:RaylibAudio = raylib::core::audio::RaylibAudio::init_audio_device();
+
+
     let line_point1 = Vector2{x: screen_width as f32 * 0.1f32, y: screen_height as f32 * 0.9f32};
     let line_point2 = Vector2{x: screen_width as f32 * 0.9f32, y: screen_height as f32 * 0.9f32};
     let line_center = (line_point1.x + line_point2.x) / 2.0;
     let line_length = line_point2.x - line_point1.x;
 
     let arc_center = Vector2{x: line_center, y: line_point2.y};
-    let arc_start_angle = PI as f32 ;
-    let arc_final_angle = 2.0 * PI as f32;
-    let arc_start_radius = 90.0;
-    let arc_default_color = Color::WHITE;
-    let arc_amount = 7;
     
-    let mut arcs:Vec<Arc> = Vec::with_capacity(arc_amount);
-
-    let circle_commom_velocity = arc_final_angle / one_cicle_duration_in_secs;
-    let circle_radius = 10.0;
-    let circle_default_color = Color::WHITE;
+    let mut arcs:Vec<Arc> = Vec::with_capacity(ARC_AMOUNT);
     
-    let mut circles:Vec<Circle> = Vec::with_capacity(arc_amount);
+    let circle_commom_velocity = ARC_FINAL_ANGLE / ONE_CICLE_DURATION_IN_SECS;
+    let mut circles:Vec<Circle> = Vec::with_capacity(ARC_AMOUNT);
 
     for i in 0..arcs.capacity()
     {
-        let radius_offset = ((line_length * 0.5 - arc_start_radius) / arc_amount as f32) * (i as f32 + 1.0);
-        let new_arc = Arc::new(arc_center, radius_offset, arc_start_angle, arc_final_angle, arc_default_color);
+        let radius_offset = ((line_length * 0.5 - ARC_START_RADIUS) / ARC_AMOUNT as f32) * (i as f32 + 1.0);
+        let new_arc = Arc::new(arc_center, radius_offset, ARC_START_ANGLE, ARC_FINAL_ANGLE, ARC_DEFAULT_COLOR);
         arcs.push(new_arc);
     }
 
     for i in 0..circles.capacity()
     {
-        let circle_pos = calc_pos_around(arcs[i].position, arcs[i].radius, arcs[i].final_angle_rad, circle_commom_velocity * (i as f32 + 1.0), &mut rl);
-        let new_circle = Circle::new(circle_pos, circle_radius, circle_commom_velocity * (i as f32 + 1.0), circle_default_color);
+        let directory = "target/debug/sounds/kalimba-c2.wav";
+        let sound = raylib::core::audio::Sound::load_sound(directory).expect("failed to load sound");
+        audio_device.set_sound_pitch(&sound, semitone_to_pitch(i as f32 * 2.0));
+       
+        let new_circle = Circle::new(&arcs[i], CIRCLE_RADIUS, circle_commom_velocity * (i as f32 + 1.0), CIRCLE_DEFAULT_COLOR, sound);
         circles.push(new_circle);
     }
-
 
     while !rl.window_should_close()
     {
         for i in 0..circles.len()
         {
-            circles[i].update(arcs[i].position, arcs[i].radius, arcs[i].final_angle_rad, &mut rl);
+            circles[i].update(&arcs[i], &mut rl, &mut audio_device);
         }
 
         let mut screen = rl.begin_drawing(&thread);
@@ -101,7 +113,8 @@ impl Arc
     pub fn draw(&self, screen: &mut RaylibDrawHandle)
     {
         let zero_deg_fix = -90.0;
-        screen.draw_ring_lines(self.position, self.radius, self.radius, self.start_angle_rad * RAD2DEG as f32 + zero_deg_fix, self.final_angle_rad * RAD2DEG as f32 + zero_deg_fix, 60, self.color);
+        screen.draw_ring_lines(self.position, self.radius, self.radius, self.start_angle_rad * RAD2DEG as f32 + zero_deg_fix,
+                               self.final_angle_rad * RAD2DEG as f32 + zero_deg_fix, 60, self.color);
     }
 }
 
@@ -109,42 +122,101 @@ impl Arc
 struct Circle
 {
     position:Vector2,
+    distance:f32,
     radius:f32,
     velocity:f32,
     color:Color,
+    sound:raylib::prelude::Sound,
+    played_sound:bool,
 }
 
 impl Circle
 {
-    pub fn new(position: Vector2, radius: f32, velocity: f32, color: Color) -> Circle
+    pub fn new(relative_arc: &Arc, radius: f32, velocity: f32, color: Color, sound: raylib::prelude::Sound) -> Circle
     {
-        Circle
-        {
-            position,
+        let mut initial_circle = Circle {
+            position: Vector2::zero(),
+            distance: 0.0,
             radius,
             velocity,
             color,
-        }
+            sound,
+            played_sound: false,
+        };
+
+        initial_circle.position = initial_circle.calc_pos_around(relative_arc);
+
+        initial_circle
     }
     
-    pub fn update(&mut self, arc_center: Vector2, arc_radius:f32, arc_final_angle_rad: f32, screen: &mut RaylibHandle)
+    pub fn update(&mut self, arc: &Arc, screen: &mut RaylibHandle, audio_device: &mut RaylibAudio)
     {
-        self.position = calc_pos_around(arc_center, arc_radius, arc_final_angle_rad, self.velocity, screen);
+        self.distance = self.calc_distance(screen);
+        self.position = self.calc_pos_around(arc);
+        self.update_sound(audio_device);
     }
 
+    pub fn update_sound(&mut self, audio_device: &mut RaylibAudio)
+    {
+        if self.played_sound
+        {
+            let reset_distance = self.distance % (CIRCLE_MAX_DISTANCE / 4.0);
+            if reset_distance <= 0.1
+            {
+                self.played_sound = false;
+            }
+            else
+            {
+                return;
+            }
+        }
+        else
+        {
+            let mod_distance = self.distance % (CIRCLE_MAX_DISTANCE / 2.0);
+
+            if mod_distance <= 0.009
+            {
+                audio_device.play_sound(&self.sound);
+                self.played_sound = true;
+            }
+        }
+    }
 
     pub fn draw(&self, screen: &mut RaylibDrawHandle)
     {
         screen.draw_circle_v(self.position, self.radius, self.color);
     }
+
+    pub fn calc_distance(&self, screen: &mut RaylibHandle) -> f32
+    {
+        CIRCLE_START_DISTANCE + screen.get_time() as f32 * self.velocity
+    }
+
+    fn calc_pos_around(&self, arc: &Arc) -> Vector2
+    {
+        let mod_distance = self.distance % CIRCLE_MAX_DISTANCE;
+        let final_distance = if mod_distance >= CIRCLE_START_DISTANCE { mod_distance } else { ARC_FINAL_ANGLE - mod_distance };
+
+        arc.position + Vector2{x: libm::cosf(final_distance) * arc.radius, y: libm::sinf(final_distance) * arc.radius}
+    }
 }
 
-
-fn calc_pos_around(arc_center: Vector2, arc_radius:f32, arc_final_angle_rad: f32, circle_velocity: f32, screen: &mut RaylibHandle) -> Vector2
+fn semitone_to_pitch(semitone: f32) -> f32
 {
-    let current_distance = PI as f32 + screen.get_time() as f32 * circle_velocity;
-    let mod_distance = current_distance % arc_final_angle_rad;
-    let final_distance = if mod_distance >= PI as f32 { mod_distance } else { arc_final_angle_rad - mod_distance };
-    
-    arc_center + Vector2{x: libm::cosf(final_distance) * arc_radius, y: libm::sinf(final_distance) * arc_radius}
+    let zero_offset = 1.0;
+
+    if semitone == 0.0 
+    {
+        zero_offset 
+    }
+    else if semitone < 0.0
+    {
+        -semitone_to_pitch(semitone)
+    }
+    else
+    {
+        let semitones_in_octave = 12.0;
+
+        (semitone / semitones_in_octave) + zero_offset
+    }
 }
