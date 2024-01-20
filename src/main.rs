@@ -3,7 +3,7 @@ use raylib::prelude::*;
 use libm;
 
 // variables ////////////////////////////////////////////
-const ONE_CICLE_DURATION_IN_SECS:f32 = 3.0;
+const ONE_CICLE_DURATION_IN_SECS:f32 = 10.0;
 
 const ARC_START_ANGLE:f32 = PI as f32 ;
 const ARC_FINAL_ANGLE:f32 = 2.0 * PI as f32;
@@ -29,6 +29,7 @@ fn main()
     rl.set_target_fps(120);
         
     let mut audio_device:RaylibAudio = raylib::core::audio::RaylibAudio::init_audio_device();
+    audio_device.set_master_volume(0.3);
     let directory = "target/debug/sounds/kalimba-c2.wav";
 
     let _major_scale_semitone_offset = vec![0.0,2.0,4.0,5.0,7.0,9.0,11.0,12.0];
