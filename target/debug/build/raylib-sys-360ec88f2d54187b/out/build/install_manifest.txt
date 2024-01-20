@@ -1,7 +1,0 @@
-C:/Users/Kelson/Desktop/RustLearing/circle_asmr_thing/target/debug/build/raylib-sys-360ec88f2d54187b/out/lib/raylib.lib
-C:/Users/Kelson/Desktop/RustLearing/circle_asmr_thing/target/debug/build/raylib-sys-360ec88f2d54187b/out/include/raylib.h
-C:/Users/Kelson/Desktop/RustLearing/circle_asmr_thing/target/debug/build/raylib-sys-360ec88f2d54187b/out/include/rlgl.h
-C:/Users/Kelson/Desktop/RustLearing/circle_asmr_thing/target/debug/build/raylib-sys-360ec88f2d54187b/out/include/raymath.h
-C:/Users/Kelson/Desktop/RustLearing/circle_asmr_thing/target/debug/build/raylib-sys-360ec88f2d54187b/out/lib/pkgconfig/raylib.pc
-C:/Users/Kelson/Desktop/RustLearing/circle_asmr_thing/target/debug/build/raylib-sys-360ec88f2d54187b/out/lib/cmake/raylib/raylib-config-version.cmake
-C:/Users/Kelson/Desktop/RustLearing/circle_asmr_thing/target/debug/build/raylib-sys-360ec88f2d54187b/out/lib/cmake/raylib/raylib-config.cmake
