@@ -1,2 +1,4 @@
-[Tt]arget/[Dd]ebug
-![Tt]arget/[Dd]ebug/[Ss]ounds
+target/debug
+
+
+!target/debug/sounds

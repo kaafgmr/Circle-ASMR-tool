@@ -30,7 +30,7 @@ fn main()
         
     let mut audio_device:RaylibAudio = raylib::core::audio::RaylibAudio::init_audio_device();
     audio_device.set_master_volume(0.3);
-    let directory = "target/debug/sounds/kalimba-c2.wav";
+    let directory = "sounds/kalimba-c2.wav";
 
     let _major_scale_semitone_offset = vec![0.0,2.0,4.0,5.0,7.0,9.0,11.0,12.0];
     let test_scale = vec![0.0,4.0,7.0];
